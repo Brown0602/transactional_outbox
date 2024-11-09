@@ -7,7 +7,6 @@ import com.tuaev.order_service.repositories.OrderRepo;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import java.time.LocalDateTime;
 

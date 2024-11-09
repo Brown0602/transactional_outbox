@@ -1,5 +1,6 @@
 package com.tuaev.delivery_service.controllers;
 
+import com.tuaev.delivery_service.controllers.handlers.RequestHandler;
 import com.tuaev.delivery_service.document.Status;
 import com.tuaev.delivery_service.services.DefaultStatusService;
 import lombok.AllArgsConstructor;
@@ -16,13 +17,13 @@ public class StatusController {
 
     @PostMapping("status")
     public ResponseEntity<Status> ask(@RequestBody Long orderId){
+        RequestHandler.requestLimit();
         return ResponseEntity.status(HttpStatus.CREATED).body(defaultStatusService.save(orderId));
     }
 
     @PostMapping("status/{orderId}")
     public ResponseEntity<Status> update(@PathVariable("orderId") Long orderID, @RequestParam String comments){
+        RequestHandler.requestLimit();
         return ResponseEntity.status(HttpStatus.OK).body(defaultStatusService.update(orderID, comments));
     }
-
-
 }
