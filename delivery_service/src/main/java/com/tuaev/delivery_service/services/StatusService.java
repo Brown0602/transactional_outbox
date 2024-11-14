@@ -1,10 +1,11 @@
 package com.tuaev.delivery_service.services;
 
 import com.tuaev.delivery_service.document.Status;
+import com.tuaev.delivery_service.dto.StatusDTO;
 
 public interface StatusService {
 
-    Status save(Long orderId);
+    StatusDTO save(Long orderId);
 
-    Status update(Long orderID, String comments);
+    Status update(Long orderId, String comments);
 }

@@ -2,6 +2,8 @@ package com.tuaev.delivery_service.services;
 
 import com.tuaev.delivery_service.Comments;
 import com.tuaev.delivery_service.document.Status;
+import com.tuaev.delivery_service.dto.StatusDTO;
+import com.tuaev.delivery_service.mapper.StatusMapper;
 import com.tuaev.delivery_service.repositories.StatusRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,10 +15,11 @@ import java.util.List;
 public class DefaultStatusService implements StatusService{
 
     private StatusRepo statusRepo;
+    private StatusMapper statusMapper;
 
     @Override
-    public Status save(Long orderId) {
-        return statusRepo.save(create(orderId));
+    public StatusDTO save(Long orderId) {
+        return statusMapper.toStatusDTO(statusRepo.save(create(orderId)));
     }
 
     @Override
@@ -32,15 +35,11 @@ public class DefaultStatusService implements StatusService{
     private void checkStatus(String comments, Status status, List<String> statuses) {
         if (statuses.stream().anyMatch(comment ->
                 comment.equals(comments))){
-            status.setComments(comments);
+            status.setDescription(comments);
         }
     }
 
     private Status create(Long orderId){
-        return new Status(
-                orderId,
-                Comments.GENERATED.getStatus(),
-                LocalDateTime.now().plusHours(3)
-        );
+        return statusMapper.toStatus(orderId, Comments.GENERATED.getStatus(), LocalDateTime.now());
     }
 }

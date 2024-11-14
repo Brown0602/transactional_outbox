@@ -1,12 +1,9 @@
-package com.tuaev.delivery_service.document;
+package com.tuaev.delivery_service.dto;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 import java.time.LocalDateTime;
 
-@Document(collection = "orders")
-public class Status{
+public class StatusDTO {
+
     public Long getOrderId() {
         return orderId;
     }
@@ -31,12 +28,7 @@ public class Status{
         this.dateTime = dateTime;
     }
 
-    @Id
-    private String id;
-    @Field("order_id")
     private Long orderId;
-    @Field("status")
     private String description;
-    @Field("datetime")
     private LocalDateTime dateTime;
 }

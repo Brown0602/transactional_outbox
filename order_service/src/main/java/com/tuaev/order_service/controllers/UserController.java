@@ -1,7 +1,6 @@
 package com.tuaev.order_service.controllers;
 
 import com.tuaev.order_service.dto.UserDTO;
-import com.tuaev.order_service.entity.User;
 import com.tuaev.order_service.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +18,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("user")
-    public ResponseEntity<User> save(@RequestBody UserDTO userDTO){
+    public ResponseEntity<UserDTO> save(@RequestBody UserDTO userDTO){
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(userService.save(userDTO));
