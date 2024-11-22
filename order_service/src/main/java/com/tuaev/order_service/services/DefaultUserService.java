@@ -1,5 +1,6 @@
 package com.tuaev.order_service.services;
 
+import com.tuaev.order_service.mapper.UserMapper;
 import com.tuaev.order_service.dto.UserDTO;
 import com.tuaev.order_service.entity.User;
 import com.tuaev.order_service.repositories.UserRepo;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class DefaultUserService implements UserService{
 
     private UserRepo userRepo;
+    private UserMapper userMapper;
 
     @Transactional
     @Override
@@ -20,15 +22,12 @@ public class DefaultUserService implements UserService{
     }
 
     @Override
-    public User save(UserDTO userDTO) {
-        return userRepo.save(create(userDTO));
+    public UserDTO save(UserDTO userDTO) {
+        userRepo.save(create(userDTO));
+        return userDTO;
     }
 
     private User create(UserDTO userDTO){
-        return new User(
-                userDTO.getFirstName(),
-                userDTO.getLastName(),
-                userDTO.getEmail()
-        );
+        return userMapper.toUser(userDTO);
     }
 }

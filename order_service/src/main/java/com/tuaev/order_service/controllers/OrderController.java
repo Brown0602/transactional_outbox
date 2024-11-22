@@ -1,7 +1,6 @@
 package com.tuaev.order_service.controllers;
 
 import com.tuaev.order_service.dto.OrderDTO;
-import com.tuaev.order_service.entity.Order;
 import com.tuaev.order_service.services.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +18,7 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping("order")
-    public ResponseEntity<Order> save(@RequestBody OrderDTO orderDTO){
+    public ResponseEntity<OrderDTO> save(@RequestBody OrderDTO orderDTO){
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(orderService.save(orderDTO));

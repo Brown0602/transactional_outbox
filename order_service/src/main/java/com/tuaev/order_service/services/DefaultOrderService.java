@@ -3,12 +3,13 @@ package com.tuaev.order_service.services;
 import com.tuaev.order_service.dto.OrderDTO;
 import com.tuaev.order_service.entity.Order;
 import com.tuaev.order_service.entity.User;
+import com.tuaev.order_service.mapper.OrderMapper;
 import com.tuaev.order_service.repositories.OrderRepo;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
+
 import java.time.LocalDateTime;
 
 @Service
@@ -18,14 +19,15 @@ public class DefaultOrderService implements OrderService{
     private RestTemplate restTemplate;
     private OrderRepo orderRepo;
     private UserService userService;
+    private OrderMapper orderMapper;
+
 
     @Transactional
     @Override
-    public Order save(OrderDTO orderDTO) {
+    public OrderDTO save(OrderDTO orderDTO) {
         Order order = orderRepo.save(create(orderDTO));
-        Long orderId = order.getId();
-        sendOrder(orderId);
-        return order;
+        sendOrder(order.getId());
+        return orderDTO;
     }
 
     private void sendOrder(Long orderId) {
@@ -34,13 +36,6 @@ public class DefaultOrderService implements OrderService{
 
     private Order create(OrderDTO orderDTO){
         User user = userService.findByEmail(orderDTO.getUserEmail());
-        return new Order(
-                orderDTO.getAddress(),
-                orderDTO.getPaymentMethod(),
-                orderDTO.getComments(),
-                orderDTO.getUserEmail(),
-                user,
-                LocalDateTime.now()
-        );
+        return orderMapper.toOrder(orderDTO, user, LocalDateTime.now());
     }
 }
